@@ -6,7 +6,7 @@ def search(curr,goal,dict,indexs,path):
     else:
         newIndex = indexs
         for i in range(len(indexs)):
-            print(i,indexs)
+            #print(i,indexs)
             for g in range(newIndex[i]+97,123):
                 newPath=path
                 s=curr
@@ -16,7 +16,7 @@ def search(curr,goal,dict,indexs,path):
                     newPath.append(curr)
                     print(s,newPath)
                     search(s,goal,dict,newIndex,newPath)
-            print("test")
+
 
 
 def searchHelper(curr,goal,dict):
