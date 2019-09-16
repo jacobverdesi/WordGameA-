@@ -23,6 +23,7 @@ class Node():
         return self.f < other.f
 
 
+
 def readFile(filename):
     """
     function that takes a filename and turns into dictionary list
