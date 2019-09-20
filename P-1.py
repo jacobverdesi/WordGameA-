@@ -3,7 +3,13 @@ from collections import defaultdict
 from heapq import heappush, heappop
 from dataclasses import dataclass
 import sys
-
+"""
+A* graph traversal algorithm for word game
+Rules get from start to end string by only changing one character at a time
+Each move must then create a valid word
+['warm', 'worm', 'word', 'cord', 'cold']
+@author Jacob Verdesi jxv3386@rit.edu
+"""
 
 @dataclass
 class Node():
@@ -78,24 +84,32 @@ def score(start, goal):
 
 
 def aStar(graph, start, goal):
+    """
+    Astar algorithm
+    :param graph: A graph of nodes and there neighbors
+    :param start: start string
+    :param goal:  goal string
+    :return:
+    """
     closed_path = set()
     open_path = set([start])
 
-    heap = [Node(score(start, goal), 0, start, None)]
+    heap = [Node(score(start, goal), 0, start, None)] # create queue starting at start node
     while heap:
-        curr = heappop(heap)
-        if curr.word == goal:
+        curr = heappop(heap) #pop the top of queue
+        if curr.word == goal:  # if the word is the goal handler
             path = []
-            while curr:
+            while curr:     # backtrack path
                 path.append(curr.word)
                 curr = curr.prev
             return path[::-1]
 
-        open_path.remove(curr.word)
+        open_path.remove(curr.word) # if not goal remove word from open path and add to closed
         closed_path.add(curr.word)
 
         gScore = curr.g + 1
-        for neighbors in graph[curr.word]:
+        for neighbors in graph[curr.word]:  # idderate through neighbors and if not in either path add to open and
+            # get next node
             for w in neighbors:
                 if w not in closed_path and w not in open_path:
                     next = Node(score(w, goal) + gScore, gScore, w, curr)
@@ -111,7 +125,6 @@ def main(*argv):
     goal = argv[1]
     g = createGraph(readFile(argv[2]), len(goal))
     print(aStar(g, start, goal))
-
 
 if __name__ == '__main__':
     main(sys.argv[1:])
