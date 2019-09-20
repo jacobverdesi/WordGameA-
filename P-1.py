@@ -3,6 +3,7 @@ from collections import defaultdict
 from heapq import heappush, heappop
 from dataclasses import dataclass
 import sys
+
 """
 A* graph traversal algorithm for word game
 Rules get from start to end string by only changing one character at a time
@@ -10,6 +11,7 @@ Each move must then create a valid word
 ['warm', 'worm', 'word', 'cord', 'cold']
 @author Jacob Verdesi jxv3386@rit.edu
 """
+
 
 @dataclass
 class Node():
@@ -27,7 +29,6 @@ class Node():
 
     def __lt__(self, other):
         return self.f < other.f
-
 
 
 def readFile(filename):
@@ -94,17 +95,17 @@ def aStar(graph, start, goal):
     closed_path = set()
     open_path = set([start])
 
-    heap = [Node(score(start, goal), 0, start, None)] # create queue starting at start node
+    heap = [Node(score(start, goal), 0, start, None)]  # create queue starting at start node
     while heap:
-        curr = heappop(heap) #pop the top of queue
+        curr = heappop(heap)  # pop the top of queue
         if curr.word == goal:  # if the word is the goal handler
             path = []
-            while curr:     # backtrack path
+            while curr:  # backtrack path
                 path.append(curr.word)
                 curr = curr.prev
             return path[::-1]
 
-        open_path.remove(curr.word) # if not goal remove word from open path and add to closed
+        open_path.remove(curr.word)  # if not goal remove word from open path and add to closed
         closed_path.add(curr.word)
 
         gScore = curr.g + 1
@@ -119,12 +120,17 @@ def aStar(graph, start, goal):
 
 def main(*argv):
     argv = argv[0]
-    if len(argv) != 3:
-        print("Usage: start goal dictionary.txt")
+    if len(argv) != 4:
+        print("Usage: start goal dictionary.txt output.txt")
     start = argv[0]
     goal = argv[1]
     g = createGraph(readFile(argv[2]), len(goal))
-    print(aStar(g, start, goal))
+    path = aStar(g, start, goal)
+    print(path)
+    with open(argv[3], "a") as myfile:
+        myfile.write(list.__str__(path) + "\n")
+    myfile.close()
+
 
 if __name__ == '__main__':
     main(sys.argv[1:])
