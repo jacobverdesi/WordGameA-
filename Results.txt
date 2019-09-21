@@ -1,0 +1,4 @@
+['cold', 'cord', 'word', 'worm', 'warm']
+['small', 'shall', 'shale', 'share', 'shore', 'short']
+['moose', 'mouse', 'rouse', 'route', 'routs', 'roots', 'moots', 'moors', 'doors', 'doers', 'deers']
+
